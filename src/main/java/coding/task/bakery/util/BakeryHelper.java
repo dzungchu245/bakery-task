@@ -26,47 +26,9 @@ public class BakeryHelper {
 		return Math.round(value * 100) / 100.00;
 	}
 
-	/* public static void main(String[] args) {
-		Pack p1 = new Pack("VS5", "name", 2, 9.95);
-		Pack p2 = new Pack("VS5", "name", 5, 16.95);
-		Pack p3 = new Pack("VS5", "name", 8, 24.95);
-
-		log.info(findMinPacks(Arrays.asList(p1, p2, p3), 14).toString());
-	}*/
-
 	/**
-	 * find minimal number of packs: n1 packs p1 and n2 packs p2 n1 * p1.size + n2 *
-	 * p1.size = total return result in a HashMap : key = n1,n2 value = p1.size,
-	 * p2.size
+	 * find minimal number of packs by given total quantity
 	 * 
-	 * @param p1    first bakery pack
-	 * @param p2    second bakery pack
-	 * @param total
-	 * @return
-	 */
-	public static Map<Integer, Integer> findMinPacks(Pack p1, Pack p2, int total) {
-		int sizeL = Math.max(p1.getSize(), p2.getSize());
-		int sizeS = Math.min(p1.getSize(), p2.getSize());
-		int maxCountL = total / sizeL;
-
-		int minTotalPack = Integer.MAX_VALUE;
-		Map<Integer, Integer> result = new HashMap<>();
-		for (int countL = maxCountL; countL >= 0; countL--) {
-			int totalRemain = total - countL * sizeL;
-			if (totalRemain % sizeS == 0) {
-				int countS = totalRemain / sizeS;
-				int totalPack = countS + countL;
-				if (totalPack < minTotalPack) {
-					minTotalPack = totalPack;
-					result.put(sizeL, countL);
-					result.put(sizeS, countS);
-				}
-			}
-		}
-		return result;
-	}
-
-	/**
 	 * @param packList
 	 * @param total
 	 * @return

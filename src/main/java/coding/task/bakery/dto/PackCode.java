@@ -4,11 +4,9 @@ package coding.task.bakery.dto;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.ToString;
+import lombok.Getter;
 
-@Data
-@ToString
+@Getter
 @AllArgsConstructor
 public class PackCode {
 	private String code;

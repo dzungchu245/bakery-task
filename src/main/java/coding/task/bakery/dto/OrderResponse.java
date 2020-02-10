@@ -7,14 +7,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import coding.task.bakery.util.BakeryHelper;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
-@Data
+@Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 @JsonInclude(value = Include.NON_NULL)
 public class OrderResponse {
 	private String packCode;
@@ -22,8 +20,8 @@ public class OrderResponse {
 	private List<OrderPack> packs;
 
 	public double getTotalPrice() {
-		return packs != null ? BakeryHelper.roundNumber(
-				packs.stream().map(p -> p.getPackPrice() * p.getQuantity()).mapToDouble(Double::doubleValue).sum())
-				: 0.0;
+		return (packs == null && packs.isEmpty()) ? 0.0
+				: BakeryHelper.roundNumber(packs.stream().map(p -> p.getPackPrice() * p.getQuantity())
+						.mapToDouble(Double::doubleValue).sum());
 	}
 }

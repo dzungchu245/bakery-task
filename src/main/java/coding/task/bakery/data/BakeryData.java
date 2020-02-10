@@ -1,9 +1,10 @@
-package coding.task.bakery.service.data;
+package coding.task.bakery.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import coding.task.bakery.dto.Pack;
 import coding.task.bakery.dto.PackCode;
@@ -30,6 +31,9 @@ public class BakeryData {
 	}
 
 	public List<Pack> findByCode(String code) {
+		if (StringUtils.isEmpty(code)) {
+			return null;
+		}
 		PackCode packCode = allPacks.stream().filter(p -> code.equals(p.getCode())).findFirst().orElse(null);
 		return packCode != null ? packCode.getPacks() : null;
 	}

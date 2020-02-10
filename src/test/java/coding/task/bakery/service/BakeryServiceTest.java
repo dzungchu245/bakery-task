@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import coding.task.bakery.data.BakeryData;
 import coding.task.bakery.dto.OrderRequest;
 import coding.task.bakery.dto.OrderResponse;
 import coding.task.bakery.dto.Pack;
-import coding.task.bakery.service.data.BakeryData;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
