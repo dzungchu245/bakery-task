@@ -6,14 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 import coding.task.bakery.entity.Pack;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class BakeryHelper {
 
 	private BakeryHelper() {
 	}
 
+	/**
+	 * sort pack list by size descending
+	 * @param packList
+	 */
 	public static void sortDsc(List<Pack> packList) {
 		packList.sort(new Comparator<Pack>() {
 			@Override
@@ -23,6 +25,11 @@ public class BakeryHelper {
 		});
 	}
 
+	/**
+	 * round number to 2 decimal places
+	 * @param value
+	 * @return
+	 */
 	public static double roundNumber(double value) {
 		return Math.round(value * 100) / 100.00;
 	}
@@ -44,7 +51,6 @@ public class BakeryHelper {
 			}
 			return result;
 		} else {
-			log.info(packList.toString());
 			Pack packMax = packList.get(0);
 			int sizeMax = packMax.getSize();
 			int minTotalPack = Integer.MAX_VALUE;
