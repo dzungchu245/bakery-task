@@ -1,4 +1,4 @@
-package coding.task.bakery.dto;
+package coding.task.bakery.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

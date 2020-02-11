@@ -11,12 +11,10 @@ import coding.task.bakery.data.BakeryData;
 import coding.task.bakery.dto.OrderPack;
 import coding.task.bakery.dto.OrderRequest;
 import coding.task.bakery.dto.OrderResponse;
-import coding.task.bakery.dto.Pack;
+import coding.task.bakery.entity.Pack;
 import coding.task.bakery.exception.ApiException;
 import coding.task.bakery.util.BakeryHelper;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 public class BakeryService {
 
@@ -28,7 +26,6 @@ public class BakeryService {
 	}
 
 	private OrderResponse collectByOrder(OrderRequest od) {
-		log.info("order {}", od);
 		List<Pack> packList = bakeryData.findByCode(od.getProductCode());
 		if (packList != null && !packList.isEmpty()) {
 			// sort by size descending
@@ -37,7 +34,6 @@ public class BakeryService {
 			List<OrderPack> orderPacks = minPacks.entrySet().stream().filter(p -> p.getValue() > 0)
 					.map(p -> new OrderPack(p.getValue(), p.getKey().getSize(), p.getKey().getPrice()))
 					.collect(Collectors.toList());
-			log.info("packs {}", orderPacks);
 			return new OrderResponse(od.getProductCode(), od.getTotal(), orderPacks);
 		} else {
 			throw new ApiException(ApiException.NO_PACK_FOUND);

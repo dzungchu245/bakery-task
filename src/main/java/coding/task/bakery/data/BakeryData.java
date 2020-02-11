@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import coding.task.bakery.dto.Pack;
-import coding.task.bakery.dto.PackCode;
+import coding.task.bakery.entity.Pack;
+import coding.task.bakery.entity.PackCode;
 import coding.task.bakery.exception.ApiException;
 
 @Component

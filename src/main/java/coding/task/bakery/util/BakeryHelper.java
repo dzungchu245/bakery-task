@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import coding.task.bakery.dto.Pack;
+import coding.task.bakery.entity.Pack;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -36,9 +36,7 @@ public class BakeryHelper {
 	 */
 	public static Map<Pack, Integer> findMinPacks(List<Pack> packList, int total) {
 		Map<Pack, Integer> result = new HashMap<>();
-		if (packList.size() == 0) { 
-			return result;
-		} else if (packList.size() == 1) {
+		if (packList.size() == 1) {
 			Pack pack = packList.get(0);
 			int size = pack.getSize();
 			if (total % size == 0) {

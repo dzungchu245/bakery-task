@@ -1,18 +1,22 @@
 package coding.task.bakery.data;
 
-import static org.junit.Assert.assertNotNull;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import coding.task.bakery.dto.Pack;
+import coding.task.bakery.entity.Pack;
 import coding.task.bakery.exception.ApiException;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class BakeryDataTest {
 
 	@InjectMocks
@@ -24,13 +28,17 @@ public class BakeryDataTest {
 		assertNotNull(packs);
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void findByCode_InvalidCode() throws ApiException {
-		data.findByCode("INVALID");
+		Assertions.assertThrows(ApiException.class, () -> {
+			data.findByCode("INVALID");
+		});
 	}
 
-	@Test(expected = ApiException.class)
+	@Test
 	public void findByCode_EmptyCode() throws ApiException {
-		data.findByCode(null);
+		Assertions.assertThrows(ApiException.class, () -> {
+			data.findByCode(null);
+		});
 	}
 }

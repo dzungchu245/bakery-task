@@ -1,5 +1,5 @@
 
-package coding.task.bakery.dto;
+package coding.task.bakery.entity;
 
 import java.util.List;
 
