@@ -1,6 +1,5 @@
 package coding.task.bakery.service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,6 +12,7 @@ import coding.task.bakery.dto.OrderPack;
 import coding.task.bakery.dto.OrderRequest;
 import coding.task.bakery.dto.OrderResponse;
 import coding.task.bakery.dto.Pack;
+import coding.task.bakery.exception.ApiException;
 import coding.task.bakery.util.BakeryHelper;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,8 +29,8 @@ public class BakeryService {
 
 	private OrderResponse collectByOrder(OrderRequest od) {
 		log.info("order {}", od);
-		List<Pack> packList = bakeryData.findByCode(od.getPackCode());
-		if (packList != null) {
+		List<Pack> packList = bakeryData.findByCode(od.getProductCode());
+		if (packList != null && !packList.isEmpty()) {
 			// sort by size descending
 			BakeryHelper.sortDsc(packList);
 			Map<Pack, Integer> minPacks = BakeryHelper.findMinPacks(packList, od.getTotal());
@@ -38,9 +38,9 @@ public class BakeryService {
 					.map(p -> new OrderPack(p.getValue(), p.getKey().getSize(), p.getKey().getPrice()))
 					.collect(Collectors.toList());
 			log.info("packs {}", orderPacks);
-			return new OrderResponse(od.getPackCode(), od.getTotal(), orderPacks);
+			return new OrderResponse(od.getProductCode(), od.getTotal(), orderPacks);
 		} else {
-			return new OrderResponse(od.getPackCode(), od.getTotal(), Collections.emptyList());
+			throw new ApiException(ApiException.NO_PACK_FOUND);
 		}
 	}
 }

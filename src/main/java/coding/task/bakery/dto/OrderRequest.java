@@ -8,6 +8,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class OrderRequest {
-	private String packCode;
+	private String productCode;
 	private int total;
 }

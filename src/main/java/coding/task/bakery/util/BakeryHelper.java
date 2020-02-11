@@ -10,8 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class BakeryHelper {
-	
-	private BakeryHelper() {}
+
+	private BakeryHelper() {
+	}
 
 	public static void sortDsc(List<Pack> packList) {
 		packList.sort(new Comparator<Pack>() {
@@ -21,7 +22,7 @@ public class BakeryHelper {
 			}
 		});
 	}
-	
+
 	public static double roundNumber(double value) {
 		return Math.round(value * 100) / 100.00;
 	}
@@ -35,7 +36,9 @@ public class BakeryHelper {
 	 */
 	public static Map<Pack, Integer> findMinPacks(List<Pack> packList, int total) {
 		Map<Pack, Integer> result = new HashMap<>();
-		if (packList.size() == 1) {
+		if (packList.size() == 0) { 
+			return result;
+		} else if (packList.size() == 1) {
 			Pack pack = packList.get(0);
 			int size = pack.getSize();
 			if (total % size == 0) {

@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import coding.task.bakery.dto.Pack;
 import coding.task.bakery.dto.PackCode;
+import coding.task.bakery.exception.ApiException;
 
 @Component
 public class BakeryData {
@@ -30,12 +31,12 @@ public class BakeryData {
 		allPacks.add(new PackCode("CF", "Croissant", packs));
 	}
 
-	public List<Pack> findByCode(String code) {
+	public List<Pack> findByCode(String code) throws ApiException {
 		if (StringUtils.isEmpty(code)) {
-			return null;
+			throw new ApiException(ApiException.INVALID_PACKCODE);
 		}
-		PackCode packCode = allPacks.stream().filter(p -> code.equals(p.getCode())).findFirst().orElse(null);
-		return packCode != null ? packCode.getPacks() : null;
+		return allPacks.stream().filter(p -> code.equals(p.getCode())).findFirst().map(PackCode::getPacks)
+				.orElseThrow(() -> new ApiException(ApiException.INVALID_PACKCODE));
 	}
 
 }

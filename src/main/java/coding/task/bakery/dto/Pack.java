@@ -8,8 +8,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class Pack {
-	//private String code;
-	//private String name;
 	private int size;
 	private double price;
 }

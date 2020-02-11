@@ -24,6 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import coding.task.bakery.dto.OrderPack;
 import coding.task.bakery.dto.OrderRequest;
 import coding.task.bakery.dto.OrderResponse;
+import coding.task.bakery.exception.ApiException;
+import coding.task.bakery.exception.ResponseWrapper;
+import coding.task.bakery.exception.RestExceptionHandler;
 import coding.task.bakery.service.BakeryService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +50,7 @@ public class BakeryControllerTest {
 	@Before
 	public void init() {
 		initMockData();
-		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(controller).setControllerAdvice(new RestExceptionHandler()).build();
 	}
 
 	private void initMockData() {
@@ -72,5 +75,31 @@ public class BakeryControllerTest {
 		String content = mvcRes.getContentAsString();
 		log.info("Response: {}", content);
 		assertEquals(mapper.writeValueAsString(response), content);
+	}
+	
+	@Test
+	public void collectPacks_invalid() throws Exception {
+		when(service.collectPacks(request)).thenThrow(ApiException.class);
+		String jsonReq = mapper.writeValueAsString(request);
+		MockHttpServletResponse mvcRes = mockMvc.perform(MockMvcRequestBuilders.post("/collect-packs")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonReq).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn().getResponse();
+		int status = mvcRes.getStatus();
+		assertEquals(HttpStatus.BAD_REQUEST.value(), status);
+		String content = mvcRes.getContentAsString();
+		log.info("Invalid Response: {}", content);
+	}
+	
+	@Test
+	public void collectPacks_notreadable() throws Exception {
+		String jsonReq = "invalid";
+		MockHttpServletResponse mvcRes = mockMvc.perform(MockMvcRequestBuilders.post("/collect-packs")
+				.contentType(MediaType.APPLICATION_JSON).content(jsonReq).accept(MediaType.APPLICATION_JSON_VALUE))
+				.andReturn().getResponse();
+		int status = mvcRes.getStatus();
+		assertEquals(HttpStatus.BAD_REQUEST.value(), status);
+		String content = mvcRes.getContentAsString();
+		ResponseWrapper resWrapper = mapper.readValue(content, ResponseWrapper.class);
+		assertEquals(resWrapper.getError(), ApiException.INVALID_REQUEST);
 	}
 }

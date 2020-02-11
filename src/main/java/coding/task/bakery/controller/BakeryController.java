@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import coding.task.bakery.dto.OrderRequest;
 import coding.task.bakery.dto.OrderResponse;
+import coding.task.bakery.exception.ApiException;
 import coding.task.bakery.service.BakeryService;
 
 @RestController
@@ -20,7 +21,8 @@ public class BakeryController {
 	private BakeryService bakeryService;
 	
 	@PostMapping("collect-packs")
-    public ResponseEntity<List<OrderResponse>> collectPacks(@RequestBody List<OrderRequest> request) {
+	public ResponseEntity<List<OrderResponse>> collectPacks(@RequestBody List<OrderRequest> request)
+			throws ApiException {
         List<OrderResponse> list = bakeryService.collectPacks(request);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

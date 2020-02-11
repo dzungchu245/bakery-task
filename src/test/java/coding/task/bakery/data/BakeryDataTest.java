@@ -1,7 +1,6 @@
 package coding.task.bakery.data;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import coding.task.bakery.dto.Pack;
+import coding.task.bakery.exception.ApiException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BakeryDataTest {
@@ -19,14 +19,18 @@ public class BakeryDataTest {
 	private BakeryData data;
 
 	@Test
-	public void findByCode() {
+	public void findByCode() throws ApiException {
 		List<Pack> packs = data.findByCode("MB11");
 		assertNotNull(packs);
-		
-		packs = data.findByCode("INVALID");
-		assertNull(packs);
-		
-		packs = data.findByCode(null);
-		assertNull(packs);
+	}
+
+	@Test(expected = ApiException.class)
+	public void findByCode_InvalidCode() throws ApiException {
+		data.findByCode("INVALID");
+	}
+
+	@Test(expected = ApiException.class)
+	public void findByCode_EmptyCode() throws ApiException {
+		data.findByCode(null);
 	}
 }
